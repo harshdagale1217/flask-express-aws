@@ -22,7 +22,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying Express app...'
-                sh 'cp express-frontend/index.js /home/ubuntu/express-app/app.js'
+                sh 'sudo -u ubuntu cp express-frontend/index.js /home/ubuntu/express-app/app.js'
                 sh 'sudo -u ubuntu pm2 restart express-app'
                 echo 'Express deployed successfully!'
             }

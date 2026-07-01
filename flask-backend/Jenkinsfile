@@ -22,7 +22,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying Flask app...'
-                sh 'cp flask-backend/app.py /home/ubuntu/flask-app/app.py'
+                sh 'sudo -u ubuntu cp flask-backend/app.py /home/ubuntu/flask-app/app.py'
                 sh 'sudo -u ubuntu pm2 restart flask-app'
                 echo 'Flask deployed successfully!'
             }
