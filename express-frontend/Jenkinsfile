@@ -16,14 +16,14 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Running Express tests...'
-                sh 'cd express-frontend && node -e "const express = require(\"express\"); console.log(\"Express OK:\", express.version);"'
+                sh 'cd express-frontend && node -e "const express = require(\'express\'); console.log(\'Express OK:\', express.version);"'
             }
         }
         stage('Deploy') {
             steps {
                 echo 'Deploying Express app...'
                 sh 'cp express-frontend/index.js /home/ubuntu/express-app/app.js'
-                sh 'pm2 restart express-app'
+                sh 'sudo -u ubuntu pm2 restart express-app'
                 echo 'Express deployed successfully!'
             }
         }

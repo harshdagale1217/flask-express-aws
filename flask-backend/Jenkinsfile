@@ -16,14 +16,14 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Running Flask tests...'
-                sh 'cd flask-backend && python3 -c "import flask; print(flask._version_)"'
+                sh 'cd flask-backend && python3 -c "import flask; print(flask.__version__)"'
             }
         }
         stage('Deploy') {
             steps {
                 echo 'Deploying Flask app...'
                 sh 'cp flask-backend/app.py /home/ubuntu/flask-app/app.py'
-                sh 'pm2 restart flask-app'
+                sh 'sudo -u ubuntu pm2 restart flask-app'
                 echo 'Flask deployed successfully!'
             }
         }
