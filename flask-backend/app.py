@@ -4,7 +4,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-    return '<h1>Hello from Flask Backend!</h1>'
+    return '<h1>Hello from Flask Backend! Webhook test successful.</h1>'
 
 @app.route('/api')
 def api():
