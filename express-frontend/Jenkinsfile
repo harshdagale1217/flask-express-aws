@@ -1,0 +1,39 @@
+pipeline {
+    agent any
+    stages {
+        stage('Checkout') {
+            steps {
+                echo 'Pulling latest code from GitHub...'
+                checkout scm
+            }
+        }
+        stage('Install Dependencies') {
+            steps {
+                echo 'Installing Node.js dependencies...'
+                sh 'cd express-frontend && npm install'
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Running Express tests...'
+                sh 'cd express-frontend && node -e "const express = require(\"express\"); console.log(\"Express OK:\", express.version);"'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo 'Deploying Express app...'
+                sh 'cp express-frontend/index.js /home/ubuntu/express-app/app.js'
+                sh 'pm2 restart express-app'
+                echo 'Express deployed successfully!'
+            }
+        }
+    }
+    post {
+        success {
+            echo 'Express pipeline completed successfully!'
+        }
+        failure {
+            echo 'Express pipeline failed!'
+        }
+    }
+}

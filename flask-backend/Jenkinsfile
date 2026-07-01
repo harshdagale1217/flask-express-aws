@@ -1,0 +1,39 @@
+pipeline {
+    agent any
+    stages {
+        stage('Checkout') {
+            steps {
+                echo 'Pulling latest code from GitHub...'
+                checkout scm
+            }
+        }
+        stage('Install Dependencies') {
+            steps {
+                echo 'Installing Python dependencies...'
+                sh 'cd flask-backend && pip3 install -r requirements.txt --break-system-packages'
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Running Flask tests...'
+                sh 'cd flask-backend && python3 -c "import flask; print(flask._version_)"'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo 'Deploying Flask app...'
+                sh 'cp flask-backend/app.py /home/ubuntu/flask-app/app.py'
+                sh 'pm2 restart flask-app'
+                echo 'Flask deployed successfully!'
+            }
+        }
+    }
+    post {
+        success {
+            echo 'Flask pipeline completed successfully!'
+        }
+        failure {
+            echo 'Flask pipeline failed!'
+        }
+    }
+}
